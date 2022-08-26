@@ -16,6 +16,31 @@
 
 <script type='text/javascript' src='https://service.force.com/embeddedservice/5.0/esw.min.js'></script>
 <script type='text/javascript'>
+	function CallClientOM()
+{
+var context = new SP.ClientContext.get_current();
+this.website = context.get_web();
+this.currentUser = website.get_currentUser();
+context.load(currentUser);
+context.executeQueryAsync(Function.createDelegate(this, this.onQuerySucceeded), Function.createDelegate(this, this.onQueryFailed));
+}
+
+
+
+function onQuerySucceeded(sender, args)
+ {
+ alert(currentUser.get_loginName());
+ }
+
+
+
+function onQueryFailed(sender, args)
+{
+alert('request failed ' + args.get_message() + '\n'+ args.get_stackTrace());
+}
+	
+	
+	
 	var initESW = function(gslbBaseURL) {
 		embedded_svc.settings.displayHelpButton = true; //Or false
 		embedded_svc.settings.language = ''; //For example, enter 'en' or 'en-US'
